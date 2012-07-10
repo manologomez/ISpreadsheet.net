@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3E5487E8-DC93-46E7-911C-8D9444D1CA8B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\nuget.exe = .nuget\nuget.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISpreadsheet", "ISpreadsheet\ISpreadsheet.csproj", "{1199DF70-DEC2-48E4-B544-DCACB81BC141}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1199DF70-DEC2-48E4-B544-DCACB81BC141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1199DF70-DEC2-48E4-B544-DCACB81BC141}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1199DF70-DEC2-48E4-B544-DCACB81BC141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1199DF70-DEC2-48E4-B544-DCACB81BC141}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
