@@ -60,5 +60,23 @@ namespace ISpreadsheet.Implementation.EPPlus {
 				return list.ToArray();
 			}
 		}
+
+		public IWorksheet CreateSheet(string name) {
+			var sheet = Workbook.Worksheets.Add(name);
+			return new EPPlusWorksheet(sheet);
+		}
+
+		public void SaveToFile(string file, string password = "") {
+			var fi = new FileInfo(file);
+			if (string.IsNullOrEmpty(password))
+				Package.SaveAs(fi);
+			else Package.SaveAs(fi, password);
+		}
+
+		public void SaveToStream(Stream stream, string password = "") {
+			if (string.IsNullOrEmpty(password))
+				Package.SaveAs(stream);
+			else Package.SaveAs(stream, password);
+		}
 	}
 }

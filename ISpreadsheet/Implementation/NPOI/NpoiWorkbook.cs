@@ -54,5 +54,22 @@ namespace ISpreadsheet.Implementation.NPOI {
 				return lista.ToArray();
 			}
 		}
+
+		public IWorksheet CreateSheet(string name) {
+			var sheet = Book.CreateSheet(name);
+			return new NpoiWorksheet(Book, sheet, _evaluator);
+		}
+
+		public void SaveToFile(string file, string password = "") {
+			if (!string.IsNullOrEmpty(password))
+				Book.WriteProtectWorkbook(password, ""); // test this
+			File.WriteAllBytes(file, Book.GetBytes());
+		}
+
+		public void SaveToStream(Stream stream, string password = "") {
+			if (!string.IsNullOrEmpty(password))
+				Book.WriteProtectWorkbook(password, ""); // test this
+			Book.Write(stream);
+		}
 	}
 }

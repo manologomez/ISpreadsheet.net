@@ -7,7 +7,7 @@ namespace ISpreadsheet {
 	/// <summary>
 	/// Workbook factory that returns an IWorkbook from either a file name or a stream
 	/// </summary>
-	public class ExcelFactory {
+	public class SpreadsheetFactory {
 		/// <summary>
 		/// Returns an IWorkbook from a physical file path
 		/// </summary>
