@@ -11,7 +11,6 @@ namespace ISpreadsheet.Implementation.NPOI {
 	public class NpoiWorkbook : IWorkbook {
 
 		public HSSFWorkbook Book { get; set; }
-		private FormulaEvaluator _evaluator;
 
 		public static IWorkbook OpenFromFile(string filename) {
 			var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -26,30 +25,27 @@ namespace ISpreadsheet.Implementation.NPOI {
 		}
 
 		public void Dispose() {
-			if (Book != null)
-				Book.Dispose();
 		}
 
 		public NpoiWorkbook(HSSFWorkbook book) {
-			_evaluator = book.GetCreationHelper().CreateFormulaEvaluator();
 			Book = book;
 		}
 
 		public IWorksheet GetSheet(string name) {
 			var sheet = Book.GetSheet(name);
-			return new NpoiWorksheet(Book, sheet, _evaluator);
+			return new NpoiWorksheet(Book, sheet);
 		}
 
 		public IWorksheet GetSheet(int num) {
 			var sheet = Book.GetSheetAt(num - 1);
-			return new NpoiWorksheet(Book, sheet, _evaluator);
+			return new NpoiWorksheet(Book, sheet);
 		}
 
 		public IWorksheet[] Sheets {
 			get {
 				var lista = new List<IWorksheet>();
 				for (int i = 0; i < Book.NumberOfSheets; i++) {
-					lista.Add(new NpoiWorksheet(Book, Book.GetSheetAt(i), _evaluator));
+					lista.Add(new NpoiWorksheet(Book, Book.GetSheetAt(i)));
 				}
 				return lista.ToArray();
 			}
@@ -57,7 +53,7 @@ namespace ISpreadsheet.Implementation.NPOI {
 
 		public IWorksheet CreateSheet(string name) {
 			var sheet = Book.CreateSheet(name);
-			return new NpoiWorksheet(Book, sheet, _evaluator);
+			return new NpoiWorksheet(Book, sheet);
 		}
 
 		public void SaveToFile(string file, string password = "") {

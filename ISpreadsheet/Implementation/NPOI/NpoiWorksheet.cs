@@ -15,12 +15,9 @@ namespace ISpreadsheet.Implementation.NPOI {
 		public int Index { get; private set; }
 		public string Name { get; set; }
 		private int _maxcol = -1;
+		private IFormulaEvaluator _evaluator;
 
-		private FormulaEvaluator _evaluator;
-
-		public NpoiWorksheet(HSSFWorkbook book, ISheet sheet, FormulaEvaluator evaluator) {
-			_evaluator = evaluator;
-			//_evaluator = new HSSFFormulaEvaluator(Sheet, book);
+		public NpoiWorksheet(HSSFWorkbook book, ISheet sheet) {
 			sheet.ForceFormulaRecalculation = true;
 			Book = book;
 			Sheet = sheet;
@@ -39,7 +36,7 @@ namespace ISpreadsheet.Implementation.NPOI {
 			var add = string.Format("{0}{1}", col, row).ToUpper();
 			return GetCell(add);
 		}
-		
+
 		public object GetCell(int col, int row) {
 			var rowobj = Sheet.GetRow(row - 1);
 			if (rowobj == null)
@@ -95,6 +92,10 @@ namespace ISpreadsheet.Implementation.NPOI {
 			get { return Sheet.LastRowNum; }
 		}
 
+		/// <summary>
+		/// returns the maximun number of cells in a row
+		/// </summary>
+		/// <returns></returns>
 		public int CalculateMaxColumn() {
 			if (_maxcol > -1)
 				return _maxcol;
@@ -109,7 +110,7 @@ namespace ISpreadsheet.Implementation.NPOI {
 			return _maxcol;
 		}
 
-		private Regex _timeRegex = new Regex(@"h+:mm(:ss)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+		private readonly Regex _timeRegex = new Regex(@"h+:mm(:ss)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
 		public object GetValor(ICell celda) {
 			if (celda == null)
@@ -147,6 +148,8 @@ namespace ISpreadsheet.Implementation.NPOI {
 					return celda.BooleanCellValue;
 				case CellType.FORMULA:
 					try {
+						if (_evaluator == null)
+							_evaluator = Book.GetCreationHelper().CreateFormulaEvaluator();
 						var valorCelda = _evaluator.Evaluate(celda);
 						return GetValorCelda(valorCelda, celda);
 					} catch (Exception ex) {
